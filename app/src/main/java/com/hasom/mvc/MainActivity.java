@@ -15,6 +15,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * create by junho.lee
+ */
 public class MainActivity extends AppCompatActivity implements IssueModel.ModelDataChange {
 
     @BindView(R.id.listView)
