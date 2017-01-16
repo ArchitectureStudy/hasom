@@ -1,4 +1,6 @@
-package com.hasom.mvc.model;
+package com.hasom.mvc.IssueList.model;
+
+import com.hasom.mvc.util.Define;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +26,16 @@ public class IssueModel {
      */
     interface IssueService {
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
         @GET("repos/{owner}/{repo}/issues")
         Call<List<IssueDTO>> repoIssue(
                 @Path("owner") String owner,
                 @Path("repo") String repo);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
     }
 
     /**
@@ -57,7 +60,7 @@ public class IssueModel {
 
         IssueService issueService = IssueService.retrofit.create(IssueService.class);
 
-        Call<List<IssueDTO>> call = issueService.repoIssue("JakeWharton", "DiskLruCache");
+        Call<List<IssueDTO>> call = issueService.repoIssue(Define.SEARCH_OWNER, Define.SEARCH_REPO);
 
         call.enqueue(callBackListener);
     }

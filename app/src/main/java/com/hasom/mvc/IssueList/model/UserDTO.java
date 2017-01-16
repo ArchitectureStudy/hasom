@@ -1,4 +1,4 @@
-package com.hasom.mvc.model;
+package com.hasom.mvc.IssueList.model;
 
 /**
  * Created by leejunho on 2017. 1. 7..
