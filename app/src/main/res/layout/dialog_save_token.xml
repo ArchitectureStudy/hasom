@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:background="@drawable/frm_toast_popup_32_32"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="170dp"
+        android:minWidth="260dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/tvToken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:text="Input Your Access Token"
+            android:textColor="#bcc8d4"/>
+
+
+        <EditText
+            android:id="@+id/edToken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvToken"
+            android:minHeight="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_margin="15dp"
+            android:textColor="#bcc8d4"
+            android:fontFamily="sans-serif"
+            android:textSize="16dp"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_confirm_s_18_18"
+            android:layout_below="@id/edToken"
+            android:layout_centerHorizontal="true"
+            android:text="SAVE"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
