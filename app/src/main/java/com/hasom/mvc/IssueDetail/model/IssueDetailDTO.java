@@ -40,7 +40,7 @@ public class IssueDetailDTO {
 
     private UserDTO user;
 
-    private String comments;
+    private int comments;
 
 
     public String getBody() {
@@ -171,11 +171,11 @@ public class IssueDetailDTO {
         this.user = user;
     }
 
-    public String getComments() {
+    public int getComments() {
         return comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(int comments) {
         this.comments = comments;
     }
 }

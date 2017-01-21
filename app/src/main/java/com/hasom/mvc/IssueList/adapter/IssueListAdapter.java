@@ -29,12 +29,6 @@ public class IssueListAdapter extends RecyclerView.Adapter<IssueListViewHolder> 
     }
 
     @Override
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
-    }
-
-
-    @Override
     public int getItemCount() {
         if (list == null) {
             return 0;
@@ -43,8 +37,31 @@ public class IssueListAdapter extends RecyclerView.Adapter<IssueListViewHolder> 
     }
 
     @Override
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+    @Override
     public void setListData(List<IssueDTO> listItem) {
-        this.list = listItem;
+        this.list.addAll(listItem);
+    }
+
+    @Override
+    public void clearListData() {
+        if (list != null) {
+            list.clear();
+        }
+    }
+
+    @Override
+    public void updateCommentCount(int issueNum, int commentCount) {
+        for (IssueDTO data : list) {
+            if (data.getNumber() == issueNum) {
+                data.setComments(commentCount);
+                notifytAdapter();
+                break;
+            }
+        }
     }
 
     @Override

@@ -38,6 +38,9 @@ public class IssueListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tvUserName)
     TextView tvUserName;
 
+    @BindView(R.id.tvCommentCount)
+    TextView tvCommentCount;
+
 
     public IssueListViewHolder(Context ctx, ViewGroup parent, OnItemClickListener listener) {
         super(LayoutInflater.from(ctx).inflate(R.layout.row_issue, parent, false));
@@ -65,6 +68,7 @@ public class IssueListViewHolder extends RecyclerView.ViewHolder {
             tvIssueNum.setText("" + data.getNumber());
             tvIssueTitle.setText("" + data.getTitle());
             tvUserName.setText("" + data.getUser().getLogin());
+            tvCommentCount.setText("Comments : " + data.getComments());
 
             Picasso.with(mCtx)// Context
                     .load(data.getUser().getAvatar_url())// URL

@@ -12,6 +12,7 @@ public interface ListPresenter {
     interface View {
         void moveToDetailActivity(int issueNum);
         void showInputToken();
+        void stopRefreshData();
     }
 
     interface Presenter {
@@ -23,10 +24,16 @@ public interface ListPresenter {
 
         void setIssueListAdapterView(IssueListAdapterContract.View adapterView);
 
-        void loadIsueList(Context context);
+        void loadIsueList();
 
         void checkSaveAccToken(Context context);
 
         void saveAcctoken(Context context, String token);
+
+        void checkListViewPositionBottom(int visibleItemCount, int totalItemCount, int firstVisibleItemPosition);
+
+        void clearListData();
+
+        void updateIssueItem(int issueNum);
     }
 }

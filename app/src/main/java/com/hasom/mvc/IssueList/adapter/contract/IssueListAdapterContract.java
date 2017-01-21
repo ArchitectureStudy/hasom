@@ -20,6 +20,8 @@ public interface IssueListAdapterContract {
 
     interface Model {
         void setListData(List<IssueDTO> listItem);
+        void clearListData();
+        void updateCommentCount(int issueNum, int commentCount);
 
     }
 }

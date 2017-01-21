@@ -1,7 +1,5 @@
 package com.hasom.mvc.IssueDetail.model;
 
-import android.util.Log;
-
 import com.hasom.mvc.util.Define;
 
 import java.util.ArrayList;
@@ -54,7 +52,6 @@ public class IssueCommentModel {
                 @Path("number") int number,
                 @Body Map<String, String> body,
                 @HeaderMap Map<String, String> headers);
-//                @Query("access_token") String token);
 
     }
 
@@ -130,7 +127,6 @@ public class IssueCommentModel {
     private Callback<IssueCommentDTO> createIssueCommentCallBackListener = new Callback<IssueCommentDTO>() {
         @Override
         public void onResponse(Call<IssueCommentDTO> call, Response<IssueCommentDTO> response) {
-            Log.e("", "success response");
             if (response.isSuccessful() == true) {
                 if (response == null || response.body() == null) {
                     return;
@@ -146,7 +142,6 @@ public class IssueCommentModel {
 
         @Override
         public void onFailure(Call<IssueCommentDTO> call, Throwable t) {
-            Log.e("", "success onFailure");
         }
     };
 

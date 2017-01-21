@@ -1,7 +1,9 @@
 package com.hasom.mvc.IssueList;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,10 +23,13 @@ import butterknife.ButterKnife;
 /**
  * create by junho.lee
  */
-public class MainActivity extends AppCompatActivity implements ListPresenter.View{
+public class MainActivity extends AppCompatActivity implements ListPresenter.View {
 
     @BindView(R.id.listView)
     RecyclerView listView;
+
+    @BindView(R.id.refreshLayout)
+    SwipeRefreshLayout refreshLayout;
 
     private LinearLayoutManager mLayoutManager;
     private IssueListAdapter mAdapter;
@@ -42,9 +47,11 @@ public class MainActivity extends AppCompatActivity implements ListPresenter.Vie
     }
 
     private void init() {
+
         mLayoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(mLayoutManager);
         listView.setItemAnimator(new DefaultItemAnimator());
+        listView.addOnScrollListener(recyclerViewOnScrollListener);
 
         mAdapter = new IssueListAdapter(this);
         listView.setAdapter(mAdapter);
@@ -54,17 +61,46 @@ public class MainActivity extends AppCompatActivity implements ListPresenter.Vie
         listPresenter.setIssueListAdapterModel(mAdapter);
         listPresenter.setIssueListAdapterView(mAdapter);
 
-        listPresenter.loadIsueList(this);
+        listPresenter.loadIsueList();
 
         listPresenter.checkSaveAccToken(getApplicationContext());
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                listPresenter.loadIsueList();
+                listPresenter.clearListData();
+            }
+        });
     }
+
+    /**
+     * Check List More Load
+     */
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int visibleItemCount = mLayoutManager.getChildCount();
+            int totalItemCount = mLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+            listPresenter.checkListViewPositionBottom(visibleItemCount, totalItemCount, firstVisibleItemPosition);
+        }
+    };
+
 
     @Override
     public void moveToDetailActivity(int issueNum) {
+
         Intent intent = new Intent(this, IssueDetailActivity.class);
         intent.putExtra(Define.INTENT_SEND_ISSUENUM, issueNum);
-        startActivity(intent);
+        startActivityForResult(intent, Define.REQ_ACTIVITY_ISSUE_DETAIL);
 
     }
 
@@ -78,4 +114,34 @@ public class MainActivity extends AppCompatActivity implements ListPresenter.Vie
             }
         });
     }
+
+    @Override
+    public void stopRefreshData() {
+        refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        listPresenter.detachView();
+        listPresenter = null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            switch (requestCode) {
+                case Define.REQ_ACTIVITY_ISSUE_DETAIL:
+                    if (data != null) {
+                        int issueNum = data.getIntExtra(Define.INTENT_SEND_ISSUENUM, 0);
+                        listPresenter.updateIssueItem(issueNum);
+                    }
+                    break;
+            }
+        }
+    }
+
 }
