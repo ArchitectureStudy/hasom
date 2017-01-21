@@ -31,7 +31,6 @@ public class IssueCommentViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.ivProfile)
     ImageView ivProfile;
 
-
     public IssueCommentViewHolder(Context ctx, ViewGroup parent) {
         super(LayoutInflater.from(ctx).inflate(R.layout.row_comment_other, parent, false));
 
@@ -48,6 +47,7 @@ public class IssueCommentViewHolder extends RecyclerView.ViewHolder {
 
             tvUserName.setText("" + data.getUser().getLogin());
             tvComment.setText("" + data.getBody());
+
 
             Picasso.with(mCtx)// Context
                     .load(data.getUser().getAvatar_url())// URL

@@ -12,6 +12,7 @@ public interface DetailPresenter {
         void updateProfile(String url);
         void updateUserName(String name);
         void updateIssueDetail(String text);
+        void updateBody(String body);
         void hideKeyPad();
         void clearEditText();
         void showToast();
@@ -31,6 +32,8 @@ public interface DetailPresenter {
         void loadIsueComment(int issueNum);
 
         void sendIssueComment(int issueNum, String token, String comment);
+
+        boolean checkRefreshData();
 
     }
 }

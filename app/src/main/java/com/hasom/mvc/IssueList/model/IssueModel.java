@@ -12,6 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by leejunho on 2017. 1. 7..
@@ -34,7 +35,8 @@ public class IssueModel {
         @GET("repos/{owner}/{repo}/issues")
         Call<List<IssueDTO>> repoIssue(
                 @Path("owner") String owner,
-                @Path("repo") String repo);
+                @Path("repo") String repo,
+                @Query("page") int currentPage);
 
     }
 
@@ -56,11 +58,11 @@ public class IssueModel {
     /**
      * Search Github Open API
      */
-    public void callIssueList() {
+    public void callIssueList(int currentPage) {
 
         IssueService issueService = IssueService.retrofit.create(IssueService.class);
 
-        Call<List<IssueDTO>> call = issueService.repoIssue(Define.SEARCH_OWNER, Define.SEARCH_REPO);
+        Call<List<IssueDTO>> call = issueService.repoIssue(Define.SEARCH_OWNER, Define.SEARCH_REPO, currentPage);
 
         call.enqueue(callBackListener);
     }
@@ -73,6 +75,7 @@ public class IssueModel {
         @Override
         public void onResponse(Call<List<IssueDTO>> call, Response<List<IssueDTO>> response) {
             if (response.isSuccessful() == true) {
+                issueList.clear();
                 issueList.addAll(response.body());
 
                 if (modelDataChange != null) {

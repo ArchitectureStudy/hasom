@@ -30,12 +30,24 @@
         />
 
     <TextView
+        android:id="@+id/tvCommentCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"/>
+
+
+    <TextView
         android:id="@+id/tvIssueTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvUserName"
         android:layout_toRightOf="@id/tvIssueNum"
+        android:layout_toLeftOf="@id/tvCommentCount"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="3dp"
         android:maxLines="1"
         android:ellipsize="end"

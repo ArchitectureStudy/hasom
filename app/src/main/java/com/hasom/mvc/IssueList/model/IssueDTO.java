@@ -38,8 +38,7 @@ public class IssueDTO {
 
     private UserDTO user;
 
-    private String comments;
-
+    private int comments;
 
     public String getBody() {
         return body;
@@ -169,11 +168,11 @@ public class IssueDTO {
         this.user = user;
     }
 
-    public String getComments() {
+    public int getComments() {
         return comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(int comments) {
         this.comments = comments;
     }
 }

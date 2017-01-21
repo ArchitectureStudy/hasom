@@ -2,7 +2,6 @@ package com.hasom.mvc.IssueDetail.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.hasom.mvc.IssueDetail.adapter.contract.IssueCommentAdapterContract;
@@ -24,7 +23,6 @@ public class IssueCommentAdapter extends RecyclerView.Adapter<IssueCommentViewHo
     public IssueCommentAdapter(Activity act) {
         super();
         this.mAct = act;
-
     }
 
     @Override
@@ -64,13 +62,6 @@ public class IssueCommentAdapter extends RecyclerView.Adapter<IssueCommentViewHo
         }
 
         holder.onBind(list.get(position), position);
-    }
-
-
-    private View.OnClickListener playerClickListener;
-
-    public void setOnClickListener(View.OnClickListener listener) {
-        this.playerClickListener = listener;
     }
 
 

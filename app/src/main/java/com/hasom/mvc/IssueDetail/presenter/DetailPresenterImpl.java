@@ -22,6 +22,9 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
     private IssueCommentAdapterContract.View adapterView;
 
 
+    private boolean isRefresh = false;
+
+
     @Override
     public void attachView(DetailPresenter.View view) {
 
@@ -37,6 +40,7 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
     @Override
     public void detachView() {
         view = null;
+
         issueDetailModel.setOnChangeListener(null);
         issueDetailModel = null;
 
@@ -80,6 +84,11 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
         view.clearEditText();
     }
 
+    @Override
+    public boolean checkRefreshData() {
+        return isRefresh;
+    }
+
 
     @Override
     public void loadIsueDetail(int issueNum) {
@@ -120,6 +129,10 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
         if (model.getTitle().length() > 0) {
             view.updateIssueDetail(model.getTitle());
         }
+
+        if (model.getBody().length() > 0) {
+            view.updateBody(model.getBody());
+        }
     }
 
     @Override
@@ -135,6 +148,7 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
         if (adapterModel != null && issueComment != null && adapterView != null) {
             adapterModel.addListData(issueComment);
             adapterView.notifytAdapter();
+            isRefresh = true;
         }
     }
 }

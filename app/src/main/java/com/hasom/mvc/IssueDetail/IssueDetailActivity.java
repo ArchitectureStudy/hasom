@@ -44,6 +44,9 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
     @BindView(R.id.tvIssueTitle)
     TextView tvIssueTitle;
 
+    @BindView(R.id.tvBody)
+    TextView tvBody;
+
     @BindView(R.id.edComment)
     EditText edComment;
 
@@ -137,6 +140,19 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
     }
 
     @Override
+    public void updateBody(final String body) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (tvIssueTitle == null) {
+                    return;
+                }
+                tvBody.setText(body);
+            }
+        });
+    }
+
+    @Override
     public void hideKeyPad() {
         runOnUiThread(new Runnable() {
             @Override
@@ -168,4 +184,21 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
         });
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (detailPresenter.checkRefreshData() == true) {
+            Intent intent = new Intent();
+            intent.putExtra(Define.INTENT_SEND_ISSUENUM, issueNum);
+            setResult(Activity.RESULT_OK, intent);
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        detailPresenter.detachView();
+        detailPresenter = null;
+    }
 }
