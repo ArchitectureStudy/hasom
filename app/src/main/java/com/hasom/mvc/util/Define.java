@@ -11,8 +11,8 @@ public class Define {
 //    public static final String SEARCH_OWNER = "JakeWharton";
 //    public static final String SEARCH_REPO = "DiskLruCache";
 
-        public static final String SEARCH_OWNER = "ArchitectureStudy";
-        public static final String SEARCH_REPO = "study";
+    public static final String SEARCH_OWNER = "ArchitectureStudy";
+    public static final String SEARCH_REPO = "study";
 
     public static final int REQ_ACTIVITY_ISSUE_DETAIL = 10000;
 }
