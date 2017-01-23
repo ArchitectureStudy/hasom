@@ -23,6 +23,8 @@ public interface DetailPresenter {
 
         void detachView();
 
+        void checkListViewPositionBottom(int issueNum, int visibleItemCount, int totalItemCount, int firstVisibleItemPosition);
+
         void loadIsueDetail(int issueNum);
 
         void setIssueCommentAdapterModel(IssueCommentAdapterContract.Model adapterModel);

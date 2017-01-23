@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.hasom.mvc.IssueList.adapter.contract.IssueListAdapterContract;
 import com.hasom.mvc.IssueList.adapter.holder.IssueListViewHolder;
 import com.hasom.mvc.IssueList.model.IssueDTO;
-import com.hasom.mvc.listener.OnItemClickListener;
+import com.hasom.mvc.base.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

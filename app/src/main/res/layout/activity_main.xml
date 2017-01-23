@@ -5,8 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <RelativeLayout
+        android:id="@+id/layoutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Issue List" />
+
+
+        <ImageView
+            android:id="@+id/ivCreateIssue"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:background="@drawable/btn_post_write_104_104"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
+        android:layout_below="@id/layoutTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

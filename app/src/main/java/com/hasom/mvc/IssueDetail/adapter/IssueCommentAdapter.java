@@ -35,7 +35,8 @@ public class IssueCommentAdapter extends RecyclerView.Adapter<IssueCommentViewHo
 
     @Override
     public void setListData(List<IssueCommentDTO> listItem) {
-        this.list = listItem;
+
+        this.list.addAll(listItem);
     }
 
     @Override

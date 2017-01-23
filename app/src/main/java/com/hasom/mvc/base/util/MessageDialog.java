@@ -1,4 +1,4 @@
-package com.hasom.mvc.util;
+package com.hasom.mvc.base.util;
 
 import android.app.Activity;
 import android.app.Dialog;

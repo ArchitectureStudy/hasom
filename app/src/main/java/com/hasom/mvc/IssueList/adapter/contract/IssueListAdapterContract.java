@@ -2,7 +2,7 @@ package com.hasom.mvc.IssueList.adapter.contract;
 
 
 import com.hasom.mvc.IssueList.model.IssueDTO;
-import com.hasom.mvc.listener.OnItemClickListener;
+import com.hasom.mvc.base.listener.OnItemClickListener;
 
 import java.util.List;
 
