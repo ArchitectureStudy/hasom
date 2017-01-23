@@ -7,8 +7,8 @@ import com.hasom.mvc.IssueDetail.model.IssueDetailModel;
 import com.hasom.mvc.IssueList.adapter.contract.IssueListAdapterContract;
 import com.hasom.mvc.IssueList.model.IssueDTO;
 import com.hasom.mvc.IssueList.model.IssueModel;
-import com.hasom.mvc.listener.OnItemClickListener;
-import com.hasom.mvc.util.SharedPreferenceUtil;
+import com.hasom.mvc.base.listener.OnItemClickListener;
+import com.hasom.mvc.base.util.SharedPreferenceUtil;
 
 import java.util.List;
 
@@ -108,9 +108,8 @@ public class ListPresenterImpl implements ListPresenter.Presenter, IssueModel.Mo
         }
     }
 
-
     @Override
-    public void update(List<IssueDTO> list) {
+    public void onSuccess(List<IssueDTO> list) {
         isLoading = false;
         view.stopRefreshData();
 
@@ -125,6 +124,11 @@ public class ListPresenterImpl implements ListPresenter.Presenter, IssueModel.Mo
     }
 
     @Override
+    public void onFail() {
+
+    }
+
+    @Override
     public void onItemClick(int issueNum) {
         view.moveToDetailActivity(issueNum);
     }
@@ -133,4 +137,6 @@ public class ListPresenterImpl implements ListPresenter.Presenter, IssueModel.Mo
     public void update(IssueDetailDTO model) {
         adapterModel.updateCommentCount(model.getNumber(), model.getComments());
     }
+
+
 }

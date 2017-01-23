@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,9 +18,9 @@ import com.hasom.mvc.IssueDetail.adapter.IssueCommentAdapter;
 import com.hasom.mvc.IssueDetail.presenter.DetailPresenter;
 import com.hasom.mvc.IssueDetail.presenter.DetailPresenterImpl;
 import com.hasom.mvc.R;
-import com.hasom.mvc.util.Define;
-import com.hasom.mvc.util.RoundedConrnerTransformation;
-import com.hasom.mvc.util.SharedPreferenceUtil;
+import com.hasom.mvc.base.util.Define;
+import com.hasom.mvc.base.util.RoundedConrnerTransformation;
+import com.hasom.mvc.base.util.SharedPreferenceUtil;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -64,6 +65,8 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_issue_detail);
 
         ButterKnife.bind(this);
@@ -95,6 +98,7 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
 
         mAdapter = new IssueCommentAdapter(this);
         listView.setAdapter(mAdapter);
+        listView.addOnScrollListener(recyclerViewOnScrollListener);
 
         detailPresenter = new DetailPresenterImpl();
         detailPresenter.attachView(this);
@@ -104,6 +108,26 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
         detailPresenter.loadIsueDetail(issueNum);
         detailPresenter.loadIsueComment(issueNum);
     }
+
+    /**
+     * Check List More Load
+     */
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int visibleItemCount = mLayoutManager.getChildCount();
+            int totalItemCount = mLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+            detailPresenter.checkListViewPositionBottom(issueNum, visibleItemCount, totalItemCount, firstVisibleItemPosition);
+        }
+    };
 
     @Override
     public void updateProfile(String url) {
@@ -182,6 +206,11 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
                 Toast.makeText(IssueDetailActivity.this, "Check Your AccessTokem", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @OnClick(R.id.ivBack)
+    public void OnClickBack() {
+        onBackPressed();
     }
 
 

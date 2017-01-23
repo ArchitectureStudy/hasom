@@ -3,9 +3,37 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/layoutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Issue Detail" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:background="@drawable/btn_back_60_60"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/layoutDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/layoutTitle"
         android:paddingBottom="10dp">
 
         <ImageView

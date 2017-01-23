@@ -1,6 +1,7 @@
 package com.hasom.mvc.IssueDetail.model;
 
-import com.hasom.mvc.util.Define;
+import com.hasom.mvc.base.network.GithubService;
+import com.hasom.mvc.base.util.Define;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,13 +11,6 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.HeaderMap;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
 
 /**
  * Created by leejunho on 2017. 1. 14..
@@ -24,36 +18,10 @@ import retrofit2.http.Path;
 
 public class IssueCommentModel {
 
-    private List<IssueCommentDTO> issueCommentDTOList = null;
-    private IssueCommentDTO issueCommentDTO = null;
+    private List<IssueCommentDTO> issueCommentDTOList = new ArrayList<>();
+    private IssueCommentDTO issueCommentDTO = new IssueCommentDTO();
 
     private IssueCommentModel.CommentModelDataChange modelDataChange;
-
-    /**
-     * Retrofit2
-     */
-    interface IssueCommentListService {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        @GET("repos/{owner}/{repo}/issues/{number}/comments")
-        Call<List<IssueCommentDTO>> repoIssueCommentList(
-                @Path("owner") String owner,
-                @Path("repo") String repo,
-                @Path("number") int number);
-
-        @POST("repos/{owner}/{repo}/issues/{number}/comments")
-        Call<IssueCommentDTO> repoCreateIssueComment(
-                @Path("owner") String owner,
-                @Path("repo") String repo,
-                @Path("number") int number,
-                @Body Map<String, String> body,
-                @HeaderMap Map<String, String> headers);
-
-    }
 
     /**
      * update Listener
@@ -74,18 +42,18 @@ public class IssueCommentModel {
     /**
      * IssueDetail Github Open API
      */
-    public void callIssueComment(int issueNum) {
+    public void callIssueComment(int issueNum, int currentPage) {
 
-        IssueCommentModel.IssueCommentListService issueCommentService = IssueCommentModel.IssueCommentListService.retrofit.create(IssueCommentModel.IssueCommentListService.class);
+        GithubService issueCommentService = GithubService.retrofit.create(GithubService.class);
 
-        Call<List<IssueCommentDTO>> call = issueCommentService.repoIssueCommentList(Define.SEARCH_OWNER, Define.SEARCH_REPO, issueNum);
+        Call<List<IssueCommentDTO>> call = issueCommentService.repoIssueCommentList(Define.SEARCH_OWNER, Define.SEARCH_REPO, issueNum, currentPage);
 
         call.enqueue(issueCommentListCallBackListener);
     }
 
 
     public void createIssueComment(int issueNum, String token, String comment) {
-        IssueCommentModel.IssueCommentListService issueCommentService = IssueCommentModel.IssueCommentListService.retrofit.create(IssueCommentModel.IssueCommentListService.class);
+        GithubService issueCommentService = GithubService.retrofit.create(GithubService.class);
 
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "token " + token);
@@ -108,7 +76,7 @@ public class IssueCommentModel {
                 if (response == null || response.body() == null) {
                    return;
                 }
-                issueCommentDTOList = new ArrayList<>();
+                issueCommentDTOList.clear();
                 issueCommentDTOList.addAll(response.body());
 
                 if (modelDataChange != null) {
@@ -131,7 +99,6 @@ public class IssueCommentModel {
                 if (response == null || response.body() == null) {
                     return;
                 }
-                issueCommentDTO = new IssueCommentDTO();
                 issueCommentDTO = response.body();
 
                 if (modelDataChange != null) {

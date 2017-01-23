@@ -1,6 +1,7 @@
 package com.hasom.mvc.IssueList.model;
 
-import com.hasom.mvc.util.Define;
+import com.hasom.mvc.base.network.GithubService;
+import com.hasom.mvc.base.util.Define;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +9,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 /**
  * Created by leejunho on 2017. 1. 7..
@@ -22,29 +18,13 @@ public class IssueModel {
     private ArrayList<IssueDTO> issueList = new ArrayList<>();
     private ModelDataChange modelDataChange;
 
-    /**
-     * Retrofit2
-     */
-    interface IssueService {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        @GET("repos/{owner}/{repo}/issues")
-        Call<List<IssueDTO>> repoIssue(
-                @Path("owner") String owner,
-                @Path("repo") String repo,
-                @Query("page") int currentPage);
-
-    }
 
     /**
      * update Listener
      */
     public interface ModelDataChange {
-        void update(List<IssueDTO> list);
+        void onSuccess(List<IssueDTO> list);
+        void onFail();
     }
 
     /**
@@ -60,7 +40,7 @@ public class IssueModel {
      */
     public void callIssueList(int currentPage) {
 
-        IssueService issueService = IssueService.retrofit.create(IssueService.class);
+        GithubService issueService = GithubService.retrofit.create(GithubService.class);
 
         Call<List<IssueDTO>> call = issueService.repoIssue(Define.SEARCH_OWNER, Define.SEARCH_REPO, currentPage);
 
@@ -79,13 +59,14 @@ public class IssueModel {
                 issueList.addAll(response.body());
 
                 if (modelDataChange != null) {
-                    modelDataChange.update(issueList);
+                    modelDataChange.onSuccess(issueList);
                 }
             }
         }
 
         @Override
         public void onFailure(Call<List<IssueDTO>> call, Throwable t) {
+            modelDataChange.onFail();
 
         }
     };

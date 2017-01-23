@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.hasom.mvc.IssueDetail.model.IssueCommentDTO;
 import com.hasom.mvc.R;
-import com.hasom.mvc.util.RoundedConrnerTransformation;
+import com.hasom.mvc.base.util.RoundedConrnerTransformation;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;

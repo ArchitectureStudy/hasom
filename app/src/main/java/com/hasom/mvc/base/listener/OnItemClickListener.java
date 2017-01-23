@@ -1,4 +1,4 @@
-package com.hasom.mvc.listener;
+package com.hasom.mvc.base.listener;
 
 /**
  * Created by leejunho on 2017. 1. 12..

@@ -8,6 +8,8 @@ import com.hasom.mvc.IssueDetail.model.IssueDetailModel;
 
 import java.util.List;
 
+import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
+
 /**
  * Created by leejunho on 2017. 1. 14..
  */
@@ -23,7 +25,10 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
 
 
     private boolean isRefresh = false;
-
+    // Pager Variables
+    private boolean isLastPage = false;
+    private boolean isLoading = false;
+    private int currentPage = 1;
 
     @Override
     public void attachView(DetailPresenter.View view) {
@@ -46,6 +51,18 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
 
         issueCommentModel.setOnChangeListener(null);
         issueCommentModel = null;
+    }
+
+    @Override
+    public void checkListViewPositionBottom(int issueNum, int visibleItemCount, int totalItemCount, int firstVisibleItemPosition) {
+        if (!isLoading && !isLastPage) {
+            if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                    && firstVisibleItemPosition >= 0
+                    && totalItemCount >= PAGE_SIZE) {
+                currentPage = currentPage + 1;
+                loadIsueComment(issueNum);
+            }
+        }
     }
 
     @Override
@@ -104,7 +121,7 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
         if (issueCommentModel == null) {
             return;
         }
-        issueCommentModel.callIssueComment(issueNum);
+        issueCommentModel.callIssueComment(issueNum, currentPage);
 
     }
 
@@ -136,9 +153,16 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
     }
 
     @Override
-    public void update(List<IssueCommentDTO> model) {
-        if (adapterModel != null && model != null && adapterView != null) {
-            adapterModel.setListData(model);
+    public void update(List<IssueCommentDTO> list) {
+        if (adapterModel != null && list != null && adapterView != null) {
+            isLoading = false;
+
+            if (list == null || list.size() == 0) {
+                isLastPage = true;
+                return;
+            }
+
+            adapterModel.setListData(list);
             adapterView.notifytAdapter();
         }
     }

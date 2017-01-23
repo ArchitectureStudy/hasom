@@ -1,14 +1,11 @@
 package com.hasom.mvc.IssueDetail.model;
 
-import com.hasom.mvc.util.Define;
+import com.hasom.mvc.base.network.GithubService;
+import com.hasom.mvc.base.util.Define;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 /**
  * Created by leejunho on 2017. 1. 14..
@@ -16,25 +13,9 @@ import retrofit2.http.Path;
 
 public class IssueDetailModel {
 
-    private IssueDetailDTO issueDetailDTO = null;
+    private IssueDetailDTO issueDetailDTO = new IssueDetailDTO();
     private IssueDetailModel.DetailModelDataChange modelDataChange;
 
-    /**
-     * Retrofit2
-     */
-    interface IssueDetailService {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        @GET("repos/{owner}/{repo}/issues/{number}")
-        Call<IssueDetailDTO> repoIssueDetail(
-                @Path("owner") String owner,
-                @Path("repo") String repo,
-                @Path("number") int number);
-    }
 
     /**
      * update Listener
@@ -56,7 +37,7 @@ public class IssueDetailModel {
      */
     public void callIssueDetail(int issueNum) {
 
-        IssueDetailModel.IssueDetailService issueService = IssueDetailModel.IssueDetailService.retrofit.create(IssueDetailModel.IssueDetailService.class);
+        GithubService issueService = GithubService.retrofit.create(GithubService.class);
 
         Call<IssueDetailDTO> call = issueService.repoIssueDetail(Define.SEARCH_OWNER, Define.SEARCH_REPO, issueNum);
 
