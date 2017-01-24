@@ -33,7 +33,8 @@ public interface GithubService {
     Call<List<IssueDTO>> repoIssue(
             @Path("owner") String owner,
             @Path("repo") String repo,
-            @Query("page") int currentPage);
+            @Query("page") int currentPage,
+            @HeaderMap Map<String, String> headers);
 
     @POST("repos/{owner}/{repo}/issues")
     Call<CreateIssueDTO> repoCreateIssue(

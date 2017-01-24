@@ -42,7 +42,6 @@ public class IssueCommentViewHolder extends RecyclerView.ViewHolder {
 
     public void onBind(IssueCommentDTO data, final int position) {
 
-
         try {
 
             tvUserName.setText("" + data.getUser().getLogin());
@@ -51,6 +50,7 @@ public class IssueCommentViewHolder extends RecyclerView.ViewHolder {
 
             Picasso.with(mCtx)// Context
                     .load(data.getUser().getAvatar_url())// URL
+                    .placeholder(R.drawable.ic_follow_default_img_60_60)
                     .transform(new RoundedConrnerTransformation())
                     .into(ivProfile);// View
 

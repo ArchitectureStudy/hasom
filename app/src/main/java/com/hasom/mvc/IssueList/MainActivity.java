@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements ListPresenter.Vie
 
         Intent intent = new Intent(this, IssueDetailActivity.class);
         intent.putExtra(Define.INTENT_SEND_ISSUENUM, issueNum);
-        startActivityForResult(intent, Define.REQ_ACTIVITY_ISSUE_DETAIL);
+        startActivity(intent);
 
     }
 
@@ -141,12 +141,6 @@ public class MainActivity extends AppCompatActivity implements ListPresenter.Vie
 
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
-                case Define.REQ_ACTIVITY_ISSUE_DETAIL:
-                    if (data != null) {
-                        int issueNum = data.getIntExtra(Define.INTENT_SEND_ISSUENUM, 0);
-                        listPresenter.updateIssueItem(issueNum);
-                    }
-                    break;
                 case Define.REQ_ACTIVITY_ISSUE_CREATE:
                     listPresenter.clearListData();
                     listPresenter.loadIsueList();

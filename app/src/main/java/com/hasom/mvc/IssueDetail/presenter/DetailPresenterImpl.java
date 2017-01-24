@@ -5,6 +5,8 @@ import com.hasom.mvc.IssueDetail.model.IssueCommentDTO;
 import com.hasom.mvc.IssueDetail.model.IssueCommentModel;
 import com.hasom.mvc.IssueDetail.model.IssueDetailDTO;
 import com.hasom.mvc.IssueDetail.model.IssueDetailModel;
+import com.hasom.mvc.base.GithubApplication;
+import com.hasom.mvc.base.Observer.CustomObserver;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
  * Created by leejunho on 2017. 1. 14..
  */
 
-public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDetailModel.DetailModelDataChange, IssueCommentModel.CommentModelDataChange {
+public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDetailModel.DetailModelDataChange, IssueCommentModel.CommentModelDataChange, CustomObserver {
 
     private DetailPresenter.View view;
     private IssueDetailModel issueDetailModel;
@@ -40,6 +42,8 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
         issueCommentModel = new IssueCommentModel();
         issueCommentModel.setOnChangeListener(this);
 
+        GithubApplication.getGithubApplication().addObserver(this);
+
     }
 
     @Override
@@ -51,6 +55,8 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
 
         issueCommentModel.setOnChangeListener(null);
         issueCommentModel = null;
+
+        GithubApplication.getGithubApplication().deleteObserver(this);
     }
 
     @Override
@@ -173,6 +179,16 @@ public class DetailPresenterImpl implements DetailPresenter.Presenter, IssueDeta
             adapterModel.addListData(issueComment);
             adapterView.notifytAdapter();
             isRefresh = true;
+
+            IssueDetailDTO tmpDTO = issueDetailModel.getIssueDetailDTO();
+            tmpDTO.setComments(tmpDTO.getComments() + 1);
+
+            GithubApplication.getGithubApplication().changeModel(tmpDTO);
         }
+    }
+
+    @Override
+    public void update(Object obj) {
+
     }
 }
