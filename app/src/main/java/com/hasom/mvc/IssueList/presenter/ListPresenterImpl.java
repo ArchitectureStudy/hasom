@@ -7,6 +7,8 @@ import com.hasom.mvc.IssueDetail.model.IssueDetailModel;
 import com.hasom.mvc.IssueList.adapter.contract.IssueListAdapterContract;
 import com.hasom.mvc.IssueList.model.IssueDTO;
 import com.hasom.mvc.IssueList.model.IssueModel;
+import com.hasom.mvc.base.GithubApplication;
+import com.hasom.mvc.base.Observer.CustomObserver;
 import com.hasom.mvc.base.listener.OnItemClickListener;
 import com.hasom.mvc.base.util.SharedPreferenceUtil;
 
@@ -18,7 +20,7 @@ import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
  * Created by leejunho on 2017. 1. 12..
  */
 
-public class ListPresenterImpl implements ListPresenter.Presenter, IssueModel.ModelDataChange, OnItemClickListener, IssueDetailModel.DetailModelDataChange {
+public class ListPresenterImpl implements ListPresenter.Presenter, IssueModel.ModelDataChange, OnItemClickListener, IssueDetailModel.DetailModelDataChange, CustomObserver {
 
     private ListPresenter.View view;
 
@@ -27,6 +29,9 @@ public class ListPresenterImpl implements ListPresenter.Presenter, IssueModel.Mo
 
     private IssueModel issueModel;
     private IssueDetailModel issueDetailModel;
+
+    private CustomObserver customObserver;
+
 
     // Pager Variables
     private boolean isLastPage = false;
@@ -41,6 +46,8 @@ public class ListPresenterImpl implements ListPresenter.Presenter, IssueModel.Mo
 
         issueDetailModel = new IssueDetailModel();
         issueDetailModel.setOnChangeListener(this);
+
+        GithubApplication.getGithubApplication().addObserver(this);
     }
 
     @Override
@@ -51,6 +58,8 @@ public class ListPresenterImpl implements ListPresenter.Presenter, IssueModel.Mo
 
         issueDetailModel.setOnChangeListener(null);
         issueDetailModel = null;
+
+        GithubApplication.getGithubApplication().deleteObserver(this);
     }
 
     @Override
@@ -139,4 +148,10 @@ public class ListPresenterImpl implements ListPresenter.Presenter, IssueModel.Mo
     }
 
 
+    @Override
+    public void update(Object obj) {
+        if (obj instanceof IssueDetailDTO) {
+            adapterModel.updateCommentCount(((IssueDetailDTO)obj).getNumber(), ((IssueDetailDTO)obj).getComments());
+        }
+    }
 }

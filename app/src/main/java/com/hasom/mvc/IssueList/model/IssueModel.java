@@ -4,7 +4,9 @@ import com.hasom.mvc.base.network.GithubService;
 import com.hasom.mvc.base.util.Define;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +44,10 @@ public class IssueModel {
 
         GithubService issueService = GithubService.retrofit.create(GithubService.class);
 
-        Call<List<IssueDTO>> call = issueService.repoIssue(Define.SEARCH_OWNER, Define.SEARCH_REPO, currentPage);
+        Map<String, String> map = new HashMap<>();
+        map.put("Cache-Control", "max-age=0, private, must-revalidate");
+
+        Call<List<IssueDTO>> call = issueService.repoIssue(Define.SEARCH_OWNER, Define.SEARCH_REPO, currentPage, map);
 
         call.enqueue(callBackListener);
     }

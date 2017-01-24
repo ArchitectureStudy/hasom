@@ -14,7 +14,6 @@ public interface IssueListAdapterContract {
 
     interface View {
         void notifytAdapter();
-
         void setOnItemClickListener(OnItemClickListener listener);
     }
 

@@ -194,7 +194,6 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
     @OnClick(R.id.btnSend)
     public void btnSend() {
         String sendComment = edComment.getText().toString().trim();
-
         detailPresenter.sendIssueComment(issueNum, accessToken, sendComment);
 
     }
@@ -203,7 +202,7 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(IssueDetailActivity.this, "Check Your AccessTokem", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IssueDetailActivity.this, "Check Your AccessToken", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -216,11 +215,6 @@ public class IssueDetailActivity extends Activity implements DetailPresenter.Vie
 
     @Override
     public void onBackPressed() {
-        if (detailPresenter.checkRefreshData() == true) {
-            Intent intent = new Intent();
-            intent.putExtra(Define.INTENT_SEND_ISSUENUM, issueNum);
-            setResult(Activity.RESULT_OK, intent);
-        }
         super.onBackPressed();
     }
 
